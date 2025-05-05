@@ -1,7 +1,6 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { toast } from "react-toastify";
 
 const DataContext = createContext();
 

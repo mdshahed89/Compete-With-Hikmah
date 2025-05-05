@@ -1,12 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Slider from "react-slick";
+import Slider, { CustomArrowProps } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import HeroImg from "@/assets/HeroImg.webp";
-import HeroImg2 from "@/assets/HeroImg2.webp";
-import HeroImg3 from "@/assets/HeroImg3.webp";
 import Link from "next/link";
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 
@@ -28,7 +26,7 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ carousols }) => {
 
 
-  function SampleNextArrow(props: any) {
+  function SampleNextArrow(props: CustomArrowProps) {
     const { onClick } = props;
     return (
       <div
@@ -43,7 +41,7 @@ const Hero: React.FC<HeroProps> = ({ carousols }) => {
     );
   }
 
-  function SamplePrevArrow(props: any) {
+  function SamplePrevArrow(props: CustomArrowProps) {
     const { onClick } = props;
     return (
       <div
@@ -59,7 +57,7 @@ const Hero: React.FC<HeroProps> = ({ carousols }) => {
   }
 
 
-  var settings = {
+  const settings = {
     dots: false,
     fade: true,
     infinite: true,

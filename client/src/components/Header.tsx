@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 // import Logo from "@/assets/LogoWhite.png";
-import Image from "next/image";
 import Link from "next/link";
 import { HiBars3BottomRight } from "react-icons/hi2";
 import { RxCross1 } from "react-icons/rx";

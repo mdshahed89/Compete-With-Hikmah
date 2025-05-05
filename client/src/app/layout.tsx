@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
 import { DataProvider } from "@/context/Context";
 import { ToastContainer } from "react-toastify";
 

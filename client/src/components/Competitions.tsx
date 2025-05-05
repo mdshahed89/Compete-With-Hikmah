@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import HeroImg from "@/assets/HeroImg.webp";
 import Link from "next/link";
 import { GoArrowUpRight } from "react-icons/go";
 

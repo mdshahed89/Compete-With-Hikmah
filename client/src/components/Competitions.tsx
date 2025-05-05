@@ -168,21 +168,22 @@ const Competitions: React.FC<CompetitionProps> = ({ competitions }) => {
           ))}
       </div>
       <div className=" mt-[2rem] flex justify-end ">
-            <Link
-                href={`/competitions`}
-                className=" border-b-2 border-green-500 px-1 pb-1 flex items-center gap-2 w-fit font-medium hover:text-green-500 transition-colors duration-300 ease-in-out "
-              >
-                Explore More <GoArrowUpRight className=" text-[1.3rem] " />
-              </Link>
-            </div>
+        <Link
+          href={`/competitions`}
+          className=" border-b-2 border-green-500 px-1 pb-1 flex items-center gap-2 w-fit font-medium hover:text-green-500 transition-colors duration-300 ease-in-out "
+        >
+          Explore More <GoArrowUpRight className=" text-[1.3rem] " />
+        </Link>
+      </div>
     </div>
   );
 };
 
 export default Competitions;
 
-
-export const PageCompetitions: React.FC<CompetitionProps> = ({ competitions }) => {
+export const PageCompetitions: React.FC<CompetitionProps> = ({
+  competitions,
+}) => {
   const [selectedType, setselectedType] = useState("All Type");
   const [selectedRegion, setselectedRegion] = useState("All Region");
   const [selectedInstitute, setselectedInstitute] = useState("All Institute");
@@ -330,8 +331,7 @@ export const PageCompetitions: React.FC<CompetitionProps> = ({ competitions }) =
   );
 };
 
-
-const Card = ({ ctp }: any) => {
+const Card = ({ ctp }: {ctp: CompetitionItem}) => {
   // console.log(ctp);
 
   return (

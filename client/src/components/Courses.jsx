@@ -9,27 +9,6 @@ import { GoArrowUpRight } from "react-icons/go";
 const Courses = ({courses}) => {
 
 
-  // const courses = [
-  //   {
-  //     img: Course1,
-  //     title: "Introduction to Python",
-  //     description:
-  //       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum error voluptatibus esse nobis, voluptatum voluptates impedit autem odit rerum ut?",
-  //   },
-  //   {
-  //     img: Course2,
-  //     title: "Introduction to Python",
-  //     description:
-  //       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum error voluptatibus esse nobis, voluptatum voluptates impedit autem odit rerum ut?",
-  //   },
-  //   {
-  //     img: Course3,
-  //     title: "Introduction to Python",
-  //     description:
-  //       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum error voluptatibus esse nobis, voluptatum voluptates impedit autem odit rerum ut?",
-  //   },
-  // ];
-
   return (
     <div className=" max-w-[1400px] mx-auto py-[3rem] ">
       <h2 className=" text-[2rem] font-semibold text-center text-green-500  ">

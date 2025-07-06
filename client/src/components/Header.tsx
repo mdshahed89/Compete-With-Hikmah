@@ -56,7 +56,7 @@ const Header = () => {
             Blogs
           </Link>
           <Link
-            href="/"
+            href="/courses"
             className=" relative before:absolute before:left-0 before:-bottom-2 before:h-[2px] before:w-0 hover:before:w-full before:bg-[#00AB0C] before:transition-[width] duration-300 ease-in-out"
           >
             Courses
@@ -131,7 +131,7 @@ const Header = () => {
               </Link>
               <Link
                 onClick={() => setOpen(false)}
-                href="/"
+                href="/courses"
                 className=" relative before:absolute before:left-0 before:-bottom-2 before:h-[2px] before:w-0 hover:before:w-full before:bg-[#00AB0C] before:transition-[width] duration-300 ease-in-out"
               >
                 Courses

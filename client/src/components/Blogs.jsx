@@ -23,7 +23,7 @@ const Blogs = ({ blogs }) => {
       .includes(searchTerm.toLowerCase());
     const typeMatch =
       selectedType.toLowerCase() === "all type" ||
-      blog.category?.toLowerCase() === selectedType.toLowerCase(); // category field assumed
+      blog.category?.toLowerCase() === selectedType.toLowerCase(); 
 
     return titleMatch && typeMatch;
   });

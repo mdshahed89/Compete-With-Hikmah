@@ -91,10 +91,10 @@ const Hero: React.FC<HeroProps> = ({ carousols }) => {
                 />
                 <div className=" absolute top-0 left-0 text-[#fff] z-50 w-full h-full flex flex-col gap-8 items-center justify-center ">
                   <div className=" text-center flex flex-col gap-5 ">
-                    <h2 className=" text-5xl md:text-6xl font-medium md:font-semibold max-w-[70rem] mx-auto  ">
+                    <h2 className=" text-4xl md:text-5xl lg:text-6xl font-medium md:font-semibold max-w-[70rem] mx-auto  ">
                       {carousol.title}
                     </h2>
-                    <h4 className=" text-xl md:text-xl max-w-[40rem] mx-auto text-gray-200 ">
+                    <h4 className=" md:text-lg lg:text-xl max-w-[40rem] mx-auto text-gray-200 ">
                       {carousol.description}
                     </h4>
                   </div>

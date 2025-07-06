@@ -28,7 +28,7 @@ const Page = ({ params }) => {
       );
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
 
       if (response.ok) {
         setCompetitions(data?.competitions || []);
@@ -113,7 +113,7 @@ const Card = ({ competition, id, fetchCompetitions }) => {
   };
 
   return (
-    <div className=" relative overflow-hidden rounded-md shadow-[0px_1px_10px_rgba(0,0,0,0.15)] ">
+    <div className=" relative overflow-hidden rounded-md shadow-[0px_1px_10px_rgba(0,0,0,0.15)] h-full ">
       <div className=" absolute z-50 top-4 right-4 flex items-center justify-center gap-2 text-[1.4rem]  ">
         <div
           onClick={() => deleteCompetitionHandler(competition?._id)}
@@ -141,8 +141,8 @@ const Card = ({ competition, id, fetchCompetitions }) => {
       </div>
 
       <div className=" p-[1rem] ">
-        <h3 className=" text-[1.3rem] font-medium ">{competition?.title}</h3>
-        <p className=" mt-2 mb-4 text-[#4b4b4b] ">
+        <h3 className=" text-[1.3rem] font-medium line-clamp-1 ">{competition?.title}</h3>
+        <p className=" mt-2 mb-4 text-[#4b4b4b] font-semibold ">
           {competition?.date &&
             new Date(competition.date).toLocaleDateString("en-US", {
               year: "numeric",
@@ -150,7 +150,7 @@ const Card = ({ competition, id, fetchCompetitions }) => {
               day: "numeric",
             })}
         </p>
-        <p className="  ">{competition?.description}</p>
+        <p className=" line-clamp-2 text-gray-500 ">{competition?.description}</p>
       </div>
 
       {/* <p>{competition?.imageUrl}</p> */}

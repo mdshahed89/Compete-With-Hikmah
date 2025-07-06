@@ -28,7 +28,7 @@ const Page = ({ params }) => {
       );
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
 
       if (response.ok) {
         setBlogs(data?.blogs || []);
@@ -142,8 +142,8 @@ const Card = ({ blog, id, fetchBlogs }) => {
       </div>
 
       <div className=" p-[1rem] ">
-        <h3 className=" text-[1.3rem] font-medium ">{blog?.title}</h3>
-        <p className=" mt-2 mb-4 text-[#4b4b4b] ">
+        <h3 className=" text-[1.3rem] font-medium line-clamp-1 ">{blog?.title}</h3>
+        <p className=" mt-2 mb-4 text-[#4b4b4b] line-clamp-2 ">
           {blog?.content}
         </p>
       </div>

@@ -28,10 +28,10 @@ const Header = () => {
   return (
     <header
       className={` ${
-        scrolled ? "bg-[#202020]" : "bg-transparent"
-      } transition-colors duration-300 ease-in-out fixed top-0 left-0 w-full text-[#fff] z-[1000] `}
+        scrolled ? "bg-[#fff]" : "bg-[#fff]"
+      } transition-colors duration-300 ease-in-out w-full text-[#000] z-[1000] `}
     >
-      <div className="max-w-[1400px] mx-auto px-2 h-[90px] flex items-center justify-between">
+      <div className="max-w-[1400px] mx-auto px-2 h-[80px] flex items-center justify-between">
         <div className="">
           {/* <Image src={Logo} alt="Logo" className=" w-[7rem] object-contain " /> */}
           <Link
@@ -67,12 +67,12 @@ const Header = () => {
           >
             About Us
           </Link>
-          <div
+          {/* <div
             onClick={() => setOpen(true)}
             className=" text-3xl cursor-pointer"
           >
             <HiBars3BottomRight />
-          </div>
+          </div> */}
         </nav>
 
         <div
@@ -95,11 +95,17 @@ const Header = () => {
           />
 
           <div
-            className={`w-[23rem] px-[3rem] pt-[2rem] bg-white shadow-lg h-full transform transition-transform duration-300 ease-in-out ${
+            className={`w-full px-[1rem] pt-[1rem] bg-white shadow-lg h-full transform transition-transform duration-300 ease-in-out ${
               open ? "translate-x-0" : "translate-x-full"
             }`}
           >
-            <div className="flex justify-end p-4">
+            <div className="flex items-center justify-between">
+              <Link
+            href={`/`}
+            className=" text-[2rem] font-medium tracking-widest "
+          >
+            CWH
+          </Link>
               <button
                 onClick={() => setOpen(false)}
                 className=" bg-[#000] p-2 rounded-sm "
@@ -108,7 +114,7 @@ const Header = () => {
               </button>
             </div>
 
-            <nav className="flex flex-col text-[#131313] md:hidden font-semibold gap-5 mt-10 text-[1.5rem] ">
+            <nav className="flex flex-col text-[#131313] md:hidden font-semibold gap-5 mt-16 text-[1.5rem] ">
               <Link
                 onClick={() => setOpen(false)}
                 href="/competitions"

@@ -27,6 +27,11 @@ const Competitions: React.FC<CompetitionProps> = ({ competitions }) => {
   const [selectedType, setselectedType] = useState("All Type");
   const [selectedRegion, setselectedRegion] = useState("All Region");
   const [selectedInstitute, setselectedInstitute] = useState("All Institute");
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [filteredInstitutes, setFilteredInstitutes] = useState<string[]>([]);
+
   const [infoOpen, setInfoOpen] = useState(false);
   const [regionOpen, setRegionOpen] = useState(false);
   const [instituteOpen, setInstituteOpen] = useState(false);
@@ -34,6 +39,7 @@ const Competitions: React.FC<CompetitionProps> = ({ competitions }) => {
   const typeRef = useRef<HTMLDivElement>(null);
   const regionRef = useRef<HTMLDivElement>(null);
   const instituteRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -52,6 +58,12 @@ const Competitions: React.FC<CompetitionProps> = ({ competitions }) => {
       ) {
         setInstituteOpen(false);
       }
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
+        setSearchOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -59,6 +71,33 @@ const Competitions: React.FC<CompetitionProps> = ({ competitions }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+
+    if (value.trim() === "") {
+      setSearchOpen(false);
+      return;
+    }
+
+    const lowerValue = value.toLowerCase();
+    const matches = competitions.filter(
+      (comp) =>
+        comp.title.toLowerCase().includes(lowerValue) ||
+        comp.institute.toLowerCase().includes(lowerValue)
+    );
+
+    const matchedInstitutes = [
+      ...new Set(
+        matches
+          .map((c) => c.institute)
+          .filter((i) => i.toLowerCase().includes(lowerValue))
+      ),
+    ];
+
+    setFilteredInstitutes(matchedInstitutes);
+    setSearchOpen(matchedInstitutes.length > 0);
+  };
 
   const filteredCompetitions = competitions.filter((comp) => {
     const typeMatch =
@@ -73,7 +112,12 @@ const Competitions: React.FC<CompetitionProps> = ({ competitions }) => {
       selectedInstitute.toLowerCase() === "all institute" ||
       comp.institute?.toLowerCase() === selectedInstitute.toLowerCase();
 
-    return typeMatch && regionMatch && instituteMatch;
+    const searchMatch =
+      searchTerm.trim() === "" ||
+      comp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      comp.institute.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return typeMatch && regionMatch && instituteMatch && searchMatch;
   });
 
   return (
@@ -82,57 +126,111 @@ const Competitions: React.FC<CompetitionProps> = ({ competitions }) => {
         Recent Competitions
       </h2>
 
-      <div className=" mt-[4rem] flex items-center gap-3 justify-end ">
-        <div className="  relative w-[10rem] " ref={typeRef}>
-          <div
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white cursor-pointer"
-            onClick={() => setInfoOpen(!infoOpen)}
-          >
-            {selectedType}
-          </div>
-          {infoOpen && (
-            <ul className="absolute w-full bg-white border border-gray-300 rounded-lg mt-1 shadow-lg z-10">
-              {["All Type", "Hackathon", "Robo Soccer"].map((option) => (
+      {/* Filter bar */}
+      <div className=" mt-[4rem] flex items-center gap-3 justify-between flex-wrap">
+        {/* Search input */}
+        <div className="relative w-full max-w-[35rem]" ref={searchRef}>
+          <input
+            type="text"
+            className="w-full border px-4 py-2 rounded-lg outline-none "
+            placeholder="Search title or institute"
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
+          {searchOpen && (
+            <ul className="absolute w-full bg-white border border-gray-300 rounded-lg mt-1 shadow-lg z-10 max-h-[12rem] overflow-y-auto">
+              {filteredInstitutes.map((inst, idx) => (
                 <li
-                  key={option}
+                  key={idx}
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={() => {
-                    // handleChange("type", option);
-                    setselectedType(option);
-                    setInfoOpen(false);
+                    setSearchTerm(inst);
+                    setSearchOpen(false);
                   }}
                 >
-                  {option}
+                  {inst}
                 </li>
               ))}
             </ul>
           )}
         </div>
-        <div className="  relative w-[10rem] " ref={regionRef}>
-          <div
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white cursor-pointer"
-            onClick={() => setRegionOpen(!regionOpen)}
-          >
-            {selectedRegion}
+
+        <div className=" flex items-center justify-end md:w-auto w-full gap-2 ">
+          {/* Type dropdown */}
+          <div className="relative w-[10rem]" ref={typeRef}>
+            <div
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white cursor-pointer"
+              onClick={() => setInfoOpen(!infoOpen)}
+            >
+              {selectedType}
+            </div>
+            {infoOpen && (
+              <ul className="absolute w-full bg-white border border-gray-300 rounded-lg mt-1 shadow-lg z-10 max-h-[15rem] overflow-y-auto">
+                {[
+                  "All Type",
+                  "Hackathon",
+                  "Project Showcase",
+                  "Poster Presentation",
+                  "Robo Soccer",
+                  "Drone Race",
+                  "Debate",
+                  "Case Study",
+                  "Techathon",
+                  "Programming Contest",
+                ].map((option) => (
+                  <li
+                    key={option}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      setselectedType(option);
+                      setInfoOpen(false);
+                    }}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-          {regionOpen && (
-            <ul className="absolute w-full bg-white border border-gray-300 rounded-lg mt-1 shadow-lg z-10">
-              {["All Region", "North", "South"].map((option) => (
-                <li
-                  key={option}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => {
-                    setselectedRegion(option);
-                    setRegionOpen(false);
-                  }}
-                >
-                  {option}
-                </li>
-              ))}
-            </ul>
-          )}
+
+          {/* Region dropdown */}
+          <div className="relative w-[10rem]" ref={regionRef}>
+            <div
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white cursor-pointer"
+              onClick={() => setRegionOpen(!regionOpen)}
+            >
+              {selectedRegion}
+            </div>
+            {regionOpen && (
+              <ul className="absolute w-full bg-white border border-gray-300 rounded-lg mt-1 shadow-lg z-10 max-h-[15rem] overflow-y-auto">
+                {[
+                  "All Region",
+                  "Dhaka",
+                  "Chattogram",
+                  "Khulna",
+                  "Rajshahi",
+                  "Barishal",
+                  "Sylhet",
+                  "Rangpur",
+                  "Mymensingh",
+                ].map((option) => (
+                  <li
+                    key={option}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      setselectedRegion(option);
+                      setRegionOpen(false);
+                    }}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
-        <div className="  relative w-[10rem] " ref={instituteRef}>
+
+        {/* <div className="relative w-[10rem]" ref={instituteRef}>
           <div
             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white cursor-pointer"
             onClick={() => setInstituteOpen(!instituteOpen)}
@@ -140,13 +238,20 @@ const Competitions: React.FC<CompetitionProps> = ({ competitions }) => {
             {selectedInstitute}
           </div>
           {instituteOpen && (
-            <ul className="absolute w-full bg-white border border-gray-300 rounded-lg mt-1 shadow-lg z-10">
-              {["All Institute", "Institute A", "Institute B"].map((option) => (
+            <ul className="absolute w-full bg-white border border-gray-300 rounded-lg mt-1 shadow-lg z-10 max-h-[15rem] overflow-y-auto">
+              {[
+                "All Institute",
+                "BUET",
+                "University of Dhaka",
+                "SUST",
+                "AIUB",
+                "NSU",
+                "BRAC University",
+              ].map((option) => (
                 <li
                   key={option}
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={() => {
-                    // handleChange("type", option);
                     setselectedInstitute(option);
                     setInstituteOpen(false);
                   }}
@@ -156,23 +261,30 @@ const Competitions: React.FC<CompetitionProps> = ({ competitions }) => {
               ))}
             </ul>
           )}
-        </div>
+        </div> */}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-7 mt-[1rem]">
-        {filteredCompetitions &&
-          filteredCompetitions.slice(0, 3).map((ctp, idx) => (
+      {/* Competition Cards */}
+      {filteredCompetitions.length > 0 ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-7 mt-[2rem]">
+          {filteredCompetitions.slice(0, 3).map((ctp, idx) => (
             <div key={idx}>
               <Card ctp={ctp} />
             </div>
           ))}
-      </div>
-      <div className=" mt-[2rem] flex justify-end ">
+        </div>
+      ) : (
+        <div className="min-h-[20rem] flex items-center justify-center text-[1.1rem] font-medium text-gray-500">
+          There are no competitions yet.
+        </div>
+      )}
+
+      <div className="mt-[2rem] flex justify-end">
         <Link
           href={`/competitions`}
-          className=" border-b-2 border-green-500 px-1 pb-1 flex items-center gap-2 w-fit font-medium hover:text-green-500 transition-colors duration-300 ease-in-out "
+          className="border-b-2 border-green-500 px-1 pb-1 flex items-center gap-2 w-fit font-medium hover:text-green-500 transition-colors duration-300 ease-in-out"
         >
-          Explore More <GoArrowUpRight className=" text-[1.3rem] " />
+          Explore More <GoArrowUpRight className="text-[1.3rem]" />
         </Link>
       </div>
     </div>
@@ -331,11 +443,11 @@ export const PageCompetitions: React.FC<CompetitionProps> = ({
   );
 };
 
-const Card = ({ ctp }: {ctp: CompetitionItem}) => {
+const Card = ({ ctp }: { ctp: CompetitionItem }) => {
   // console.log(ctp);
 
   return (
-    <div className=" shadow-[0px_1px_10px_rgba(0,0,0,0.15)] rounded-md overflow-hidden ">
+    <Link href={`/competitions/${ctp?._id}`} className=" shadow-[0px_1px_10px_rgba(0,0,0,0.15)] h-full rounded-md overflow-hidden ">
       <div className=" relative w-full h-[17rem]   ">
         <Image
           src={ctp?.imageUrl}
@@ -345,8 +457,10 @@ const Card = ({ ctp }: {ctp: CompetitionItem}) => {
         />
       </div>
       <div className=" p-[1rem] ">
-        <div className=" text-[1.4rem] font-medium ">{ctp?.title}</div>
-        <p className=" mt-2 mb-4 text-[#4b4b4b] ">
+        <div className=" text-[1.4rem] font-medium line-clamp-1 ">
+          {ctp?.title}
+        </div>
+        <p className=" mt-2 mb-4 text-[#4b4b4b] font-semibold ">
           {ctp?.date &&
             new Date(ctp.date).toLocaleDateString("en-US", {
               year: "numeric",
@@ -354,8 +468,8 @@ const Card = ({ ctp }: {ctp: CompetitionItem}) => {
               day: "numeric",
             })}
         </p>
-        <div>{ctp?.description}</div>
+        <div className=" line-clamp-2 text-gray-500 ">{ctp?.description}</div>
       </div>
-    </div>
+    </Link>
   );
 };

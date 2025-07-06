@@ -8,6 +8,7 @@ export default async function Home() {
   let carousols = [];
   let competitions = [];
   let blogs = [];
+  let courses = [];
 
   try {
     const res = await fetch(
@@ -66,13 +67,32 @@ export default async function Home() {
     console.error("Error fetching carousel data:", error);
   }
 
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/course`,
+      {
+        next: { revalidate: 0 },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch: ${res.status}`);
+    }
+
+    const data = await res.json();
+
+    courses = data?.courses || [];
+  } catch (error) {
+    console.error("Error fetching carousel data:", error);
+  }
+
   return (
     <div className="  ">
       <Header />
       <Hero carousols={carousols} />
       <Competitions competitions={competitions} />
       <Blogs blogs={blogs} />
-      <Courses />
+      <Courses courses={courses} />
     </div>
   );
 }

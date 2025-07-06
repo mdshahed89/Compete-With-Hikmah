@@ -12,7 +12,7 @@ import { SlCloudUpload } from "react-icons/sl";
 import { uploadFile } from "@/components/imageUpload";
 
 const Page = ({ params }) => {
-  const { id } = React.use(params);
+  const { id, courseId } = React.use(params);
   const [courseInfo, setCourseInfo] = useState({
     title: "",
     description: "",
@@ -22,20 +22,59 @@ const Page = ({ params }) => {
     imageUrl: "",
   });
   const [loading, setLoading] = useState(false);
+  const [isLoading1, setIsLoading1] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleChange = (name, value) => {
     setCourseInfo({ ...courseInfo, [name]: value });
   };
 
-  const addCourseHandler = async (e) => {
+  const fetchCourseInfo = async () => {
+    setIsLoading1(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/course/${courseId}`,
+        {
+          method: "GET",
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setCourseInfo({
+          title: data?.course?.title || "",
+          description: data?.course?.description || "",
+          instructor: data?.course?.instructor || "",
+          duration: data?.course?.duration || "",
+          price: data?.course?.price || "",
+          imageUrl: data?.course?.imageUrl || "",
+        });
+      } else {
+        console.log(data.message || "Failed to fetch course!");
+        router.push(`/admin-panel/${id}/courses`);
+      }
+    } catch (error) {
+      toast.error("Something went wrong! Please try again.");
+      console.error("Failed to fetch course:", error);
+      router.push(`/admin-panel/${id}/courses`);
+    } finally {
+      setIsLoading1(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCourseInfo();
+  }, []);
+
+  const updateCourseHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/course`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/course/${courseId}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
@@ -47,21 +86,13 @@ const Page = ({ params }) => {
 
       console.log(data);
       if (response.ok) {
-        toast.success("Course added successfully!");
-        setCourseInfo({
-          title: "",
-          description: "",
-          instructor: "",
-          duration: "",
-          price: "",
-          imageUrl: "",
-        });
+        toast.success("Course Updated successfully!");
       } else {
-        toast.error(data.message || "Failed to add course!");
+        toast.error(data.message || "Failed to update course!");
       }
     } catch (error) {
       toast.error("Something went wrong! Please try again.");
-      console.error("Error submitting course:", error);
+      console.error("Error submitting update blog:", error);
     } finally {
       setLoading(false);
     }
@@ -115,7 +146,7 @@ const Page = ({ params }) => {
     });
   };
 
-  // console.log();
+  // console.log(blogInfo);
 
   return (
     <motion.div
@@ -125,7 +156,7 @@ const Page = ({ params }) => {
       className="max-w-[800px] mx-auto md:mt-8 px-3 md:px-8 py-8 bg-white md:shadow-[0px_1px_10px_rgba(0,0,0,0.15)] rounded-2xl"
     >
       <div className="flex items-center space-x-2 mb-10 justify-between">
-        <h2 className="text-3xl font-semibold text-gray-800">Add Course</h2>
+        <h2 className="text-3xl font-semibold text-gray-800">Update Course</h2>
         <Link
           href={`/admin-panel/${id}/courses`}
           className=" p-2 rounded-full bg-slate-50 shadow-inner cursor-pointer text-[1.5rem] "
@@ -134,7 +165,7 @@ const Page = ({ params }) => {
         </Link>
       </div>
 
-      <form onSubmit={addCourseHandler} className="space-y-3">
+      <form onSubmit={updateCourseHandler} className="space-y-3">
         <div className="w-full max-w-[25rem] ">
           <label className="block text-gray-600 font-medium mb-1">
             Cover Image
@@ -205,9 +236,7 @@ const Page = ({ params }) => {
           />
         </div>
         <div className=" mt-3 ">
-          <label className="block text-gray-600 font-medium mb-1">
-            Instructor
-          </label>
+          <label className="block text-gray-600 font-medium mb-1">Instructor</label>
           <input
             type="text"
             name="instructor"
@@ -222,9 +251,9 @@ const Page = ({ params }) => {
           <label className="block text-gray-600 font-medium mb-1">
             Duration
           </label>
-          <input
-            type="text"
+          <textarea
             name="duration"
+            rows={5}
             value={courseInfo.duration}
             onChange={(e) => handleChange("duration", e.target.value)}
             placeholder="Enter course duration"
@@ -233,7 +262,9 @@ const Page = ({ params }) => {
           />
         </div>
         <div className=" mt-3 ">
-          <label className="block text-gray-600 font-medium mb-1">Price</label>
+          <label className="block text-gray-600 font-medium mb-1">
+            Price
+          </label>
           <input
             type="text"
             name="price"
@@ -244,6 +275,7 @@ const Page = ({ params }) => {
             className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:ring-1 focus:ring-green-500"
           />
         </div>
+
         <div className=" mt-3 ">
           <label className="block text-gray-600 font-medium mb-1">
             Description
@@ -265,7 +297,7 @@ const Page = ({ params }) => {
             whileTap={{ scale: 0.95 }}
             className="w-full relative h-[3rem] flex items-center active:scale-90 justify-center space-x-2 bg-green-500 text-white rounded-lg text-lg font-semibold shadow-md transition-all duration-300"
           >
-            {loading ? <ButtonLoading /> : "Add Course"}
+            {loading ? <ButtonLoading /> : "Update Course"}
           </motion.button>
         </div>
       </form>

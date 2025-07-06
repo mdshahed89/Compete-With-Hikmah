@@ -113,9 +113,9 @@ export default function DashboardLayout({ children, params }) {
     },
   ];
 
-  const isPathInItems = items.some((item) =>
-    currentPath.includes(item.pathName)
-  );
+  // const isPathInItems = items.some((item) =>
+  //   currentPath.includes(item.pathName)
+  // );
 
   if (isLoading) {
     return <LoadingPage />;
@@ -200,7 +200,7 @@ export default function DashboardLayout({ children, params }) {
                 Admin Panel
               </h3>
               {/* <ProfileModal id={id} isPathInItems={isPathInItems} /> */}
-              <div>Profile Modal</div>
+              <div className=" w-[3.5rem] h-[3.5rem] rounded-full bg-gray-400 "></div>
             </div>
             <div className=" h-[calc(100vh-4.5rem)] w-full relative overflow-y-auto p-2 pb-[1.5rem] ">
               {children}

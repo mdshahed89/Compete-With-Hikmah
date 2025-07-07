@@ -441,7 +441,7 @@ export const PageCompetitions: React.FC<CompetitionProps> = ({
 
       {filteredCompetitions.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-[2rem]">
-          {filteredCompetitions.slice(0, 4).map((ctp, idx) => (
+          {filteredCompetitions.map((ctp, idx) => (
             <div key={idx}>
               <Card ctp={ctp} />
             </div>

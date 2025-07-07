@@ -117,7 +117,7 @@ const Page = () => {
 
         <div className=" grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-[3rem] ">
           {filteredBlogs.length > 0 ? (
-            filteredBlogs.slice(0, 4).map((blog, idx) => (
+            filteredBlogs.map((blog, idx) => (
               <div key={idx}>
                 <Card blog={blog} />
               </div>

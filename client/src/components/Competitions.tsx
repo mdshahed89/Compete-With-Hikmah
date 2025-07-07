@@ -215,8 +215,8 @@ const Competitions: React.FC<CompetitionProps> = ({ competitions }) => {
       </div>
 
       {filteredCompetitions.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-7 mt-[2rem]">
-          {filteredCompetitions.slice(0, 3).map((ctp, idx) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-[2rem]">
+          {filteredCompetitions.slice(0, 4).map((ctp, idx) => (
             <div key={idx}>
               <Card ctp={ctp} />
             </div>
@@ -440,8 +440,8 @@ export const PageCompetitions: React.FC<CompetitionProps> = ({
       </div>
 
       {filteredCompetitions.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-7 mt-[2rem]">
-          {filteredCompetitions.slice(0, 3).map((ctp, idx) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-[2rem]">
+          {filteredCompetitions.slice(0, 4).map((ctp, idx) => (
             <div key={idx}>
               <Card ctp={ctp} />
             </div>
@@ -452,9 +452,6 @@ export const PageCompetitions: React.FC<CompetitionProps> = ({
           There are no competitions yet.
         </div>
       )}
-
-
-
     </div>
   );
 };
@@ -465,29 +462,41 @@ const Card = ({ ctp }: { ctp: CompetitionItem }) => {
   return (
     <Link
       href={`/competitions/${ctp?._id}`}
-      className=" block shadow-[0px_1px_10px_rgba(0,0,0,0.15)] h-full rounded-md overflow-hidden "
+      className="flex flex-col justify-between shadow-[0px_1px_10px_rgba(0,0,0,0.15)] h-full rounded-md overflow-hidden"
     >
-      <div className=" relative w-full h-[17rem]   ">
+      {/* Image Section */}
+      <div className="relative w-full h-[17rem] md:h-[14rem]">
         <Image
           src={ctp?.imageUrl}
           fill
           alt="Competition Img"
-          className=" w-full h-full object-cover "
+          className="w-full h-full object-cover"
         />
       </div>
-      <div className=" p-[1rem] ">
-        <div className=" text-[1.4rem] font-medium line-clamp-1 ">
-          {ctp?.title}
+
+      {/* Content Section */}
+      <div className="flex flex-col flex-1 p-[1rem]">
+        <div className="flex-1">
+          <div className="text-[1.4rem] font-medium line-clamp-1">
+            {ctp?.title}
+          </div>
+          <p className="mt-2 mb-4 text-[#4b4b4b] font-semibold">
+            {ctp?.date &&
+              new Date(ctp.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+          </p>
+          <div className="line-clamp-2 text-gray-500">{ctp?.description}</div>
         </div>
-        <p className=" mt-2 mb-4 text-[#4b4b4b] font-semibold ">
-          {ctp?.date &&
-            new Date(ctp.date).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-        </p>
-        <div className=" line-clamp-2 text-gray-500 ">{ctp?.description}</div>
+
+        {/* Bottom Section */}
+        <div className="pt-5 text-right">
+          <div className="underline text-green-500 hover:text-green-400 transition-colors duration-300 ease-in-out ">
+            Read More...
+          </div>
+        </div>
       </div>
     </Link>
   );

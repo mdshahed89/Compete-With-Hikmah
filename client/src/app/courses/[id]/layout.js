@@ -10,11 +10,11 @@ export const metadata = {
 export default async function BlogLayout({ children, params }) {
   const { id } = await params;
 
-  let competitions = [];
+  let courses = [];
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/competition`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/course`,
       {
         next: { revalidate: 0 },
       }
@@ -27,44 +27,41 @@ export default async function BlogLayout({ children, params }) {
     const data = await res.json();
 
     // console.log(data);
+    
 
-    competitions = data?.competitions || [];
+    courses = data?.courses || [];
   } catch (error) {
     console.error("Error fetching blog data:", error);
   }
 
-  const competitiionTitle = competitions.find(
-    (competition) => competition._id === id
-  )?.title;
+  const courseTitle = courses.find((course) => course._id === id)?.title;
 
-  // console.log(competitions);
+  // console.log(blogs);
 
   return (
     <div>
       <Header />
       <div className=" min-h-[100vh] ">
-        <div className=" relative w-full min-h-[10rem] h-full flex items-center justify-center bg-green-800  ">
-        <h2 className=" max-w-[1400px] mx-auto w-full py-3 h-full lg:text-[2.5rem] md:text-[2rem] text-[1.5rem] px-3 xl:text-[3rem] flex items-center font-medium text-[#fff] text-center line-clamp-1  truncate ">
-          {competitiionTitle}
-        </h2>
+      <div className=" relative w-full min-h-[10rem] h-full flex items-center justify-center px-3 bg-green-800  ">
+        <div className=" py-3 w-full h-full text-[1.5rem] lg:text-[2rem] xl:text-[3rem] font-medium text-[#fff] flex items-center justify-center line-clamp-1 text-center ">
+          {courseTitle}
+        </div>
       </div>
       <div
         className={` flex gap-5 lg:flex-row flex-col justify-between max-w-[1400px] mx-auto pt-[2rem] px-3 `}
       >
         <div className=" w-full ">{children}</div>
         <div className=" w-full lg:w-[30rem] lg:pt-0 pt-[2rem] pb-[2rem] px-3 bg-slate-50 rounded-md ">
-          <h3 className=" text-[1.5rem] font-semibold mt-2 ">
-            Related Competitiions
-          </h3>
+          <h3 className=" text-[1.5rem] font-semibold mt-2 ">Related Courses</h3>
           <div className=" space-y-2 mt-[2rem] ">
-            {competitions &&
-              competitions.map((competition, idx) => (
+            {courses &&
+              courses.map((course, idx) => (
                 <div key={idx} className=" w-full ">
                   <Link
-                    href={`/competitions/${competition?._id}`}
-                    className=" block py-2 px-2 w-full bg-slate-100 rounded-md line-clamp-2 truncate text-green-500 text-[1.2rem] font-medium "
+                    href={`/courses/${course?._id}`}
+                    className=" block py-2 px-2 w-full bg-slate-100 rounded-md text-green-500 text-[1.2rem] font-medium "
                   >
-                    {competition?.title}
+                    {course?.title}
                   </Link>
                 </div>
               ))}

@@ -7,10 +7,13 @@ import { HiBars3BottomRight } from "react-icons/hi2";
 import { RxCross1 } from "react-icons/rx";
 import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 import { IoLogoInstagram } from "react-icons/io5";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,39 +34,45 @@ const Header = () => {
         scrolled ? "bg-[#fff]" : "bg-[#fff]"
       } transition-colors duration-300 ease-in-out w-full text-[#000] z-[1000] `}
     >
-      <div className="max-w-[1400px] mx-auto px-2 h-[80px] flex items-center justify-between">
+      <div className="max-w-[1400px] mx-auto px-2 h-[80px] flex items-center justify-between  ">
         <div className="">
           {/* <Image src={Logo} alt="Logo" className=" w-[7rem] object-contain " /> */}
           <Link
             href={`/`}
-            className=" text-[2rem] font-medium tracking-widest "
+            className=" text-[2rem] font-medium tracking-widest  "
           >
             CWH
           </Link>
         </div>
 
-        <nav className="hidden md:flex gap-10 text-[1.2rem] ">
+        <nav className="hidden md:flex gap-10 text-[1.2rem] items-center ">
+          <Link
+            href="/"
+            className={` ${pathname === "/" && "before:w-full text-green-500"} hover:text-green-500 relative before:absolute before:left-0 before:-bottom-2 before:h-[2px] before:w-0 hover:before:w-full before:bg-[#00AB0C] before:transition-[width] duration-300 ease-in-out `}
+          >
+            Home
+          </Link>
           <Link
             href="/competitions"
-            className=" relative before:absolute before:left-0 before:-bottom-2 before:h-[2px] before:w-0 hover:before:w-full before:bg-[#00AB0C] before:transition-[width] duration-300 ease-in-out "
+            className={` ${pathname === "/competitions" && "before:w-full text-green-500"} hover:text-green-500 relative before:absolute before:left-0 before:-bottom-2 before:h-[2px] before:w-0 hover:before:w-full before:bg-[#00AB0C] before:transition-[width] duration-300 ease-in-out `}
           >
             Competitions
           </Link>
           <Link
             href="/blogs"
-            className=" relative before:absolute before:left-0 before:-bottom-2 before:h-[2px] before:w-0 hover:before:w-full before:bg-[#00AB0C] before:transition-[width] duration-300 ease-in-out"
+            className={` ${pathname === "/blogs" && "before:w-full text-green-500"} hover:text-green-500 relative before:absolute before:left-0 before:-bottom-2 before:h-[2px] before:w-0 hover:before:w-full before:bg-[#00AB0C] before:transition-[width] duration-300 ease-in-out `}
           >
             Blogs
           </Link>
           <Link
             href="/courses"
-            className=" relative before:absolute before:left-0 before:-bottom-2 before:h-[2px] before:w-0 hover:before:w-full before:bg-[#00AB0C] before:transition-[width] duration-300 ease-in-out"
+            className={` ${pathname === "/courses" && "before:w-full text-green-500"} hover:text-green-500 relative before:absolute before:left-0 before:-bottom-2 before:h-[2px] before:w-0 hover:before:w-full before:bg-[#00AB0C] before:transition-[width] duration-300 ease-in-out `}
           >
             Courses
           </Link>
           <Link
-            href="/"
-            className=" relative before:absolute before:left-0 before:-bottom-2 before:h-[2px] before:w-0 hover:before:w-full before:bg-[#00AB0C] before:transition-[width] duration-300 ease-in-out "
+            href="#"
+            className={` ${pathname === "/about-us" && "before:w-full text-green-500"} hover:text-green-500 relative before:absolute before:left-0 before:-bottom-2 before:h-[2px] before:w-0 hover:before:w-full before:bg-[#00AB0C] before:transition-[width] duration-300 ease-in-out `}
           >
             About Us
           </Link>
@@ -115,6 +124,13 @@ const Header = () => {
             </div>
 
             <nav className="flex flex-col text-[#131313] md:hidden font-semibold gap-5 mt-16 text-[1.5rem] ">
+              <Link
+                onClick={() => setOpen(false)}
+                href="/"
+                className=" relative before:absolute before:left-0 before:-bottom-2 before:h-[2px] before:w-0 hover:before:w-full before:bg-[#00AB0C] before:transition-[width] duration-300 ease-in-out "
+              >
+                Home
+              </Link>
               <Link
                 onClick={() => setOpen(false)}
                 href="/competitions"

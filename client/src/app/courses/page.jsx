@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,7 +36,8 @@ const Page = () => {
   return (
     <div className=" ">
       <Header />
-      <div className=" relative w-full h-[30rem] bg-green-800  ">
+      <div className=" min-h-[100vh] ">
+        <div className=" relative w-full h-[10rem] bg-green-800  ">
         <div className=" w-full h-full text-[3rem] font-medium text-[#fff] flex items-center justify-center ">
           Courses
         </div>
@@ -46,7 +48,7 @@ const Page = () => {
           All Courses
         </h2>
 
-        <div className=" grid grid-cols-1 lg:grid-cols-3 gap-7 mt-[3rem] ">
+        <div className=" grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-[3rem] ">
           {courses &&
             courses.map((course, idx) => (
               <div key={idx}>
@@ -55,6 +57,8 @@ const Page = () => {
             ))}
         </div>
       </div>
+      </div>
+      <Footer />
     </div>
   );
 };
@@ -65,7 +69,7 @@ const Card = ({ course }) => {
   return (
     <div className=" shadow-[0px_1px_10px_rgba(0,0,0,0.15)] rounded-md overflow-hidden h-full ">
       <div className=" flex flex-col justify-between h-full ">
-        <div className=" relative w-full h-[17rem]   ">
+        <div className=" relative w-full md:h-[14rem] h-[17rem]   ">
           <Image
             src={course?.imageUrl}
             fill
@@ -87,7 +91,7 @@ const Card = ({ course }) => {
         </div>
         <div className=" px-[1rem] pb-[1rem] ">
           <Link
-            href={`/`}
+            href={`/courses/${course?._id}`}
             className=" border-b-2 border-green-500 px-1 pb-1 flex items-center gap-2 w-fit font-medium hover:text-green-500 transition-colors duration-300 ease-in-out "
           >
             Enroll Now <GoArrowUpRight className=" text-[1.3rem] " />

@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Link from "next/link";
 
@@ -37,8 +38,9 @@ export default async function BlogLayout({ children, params }) {
   return (
     <div>
       <Header />
-      <div className=" relative w-full h-[30rem] bg-green-800  ">
-        <div className=" w-full h-full text-[3rem] font-medium text-[#fff] flex items-center justify-center ">
+      <div className=" min-h-[100vh] ">
+      <div className=" relative w-full min-h-[10rem] h-full flex items-center justify-center bg-green-800  ">
+        <div className=" w-full py-3 h-full lg:text-[2.5rem] md:text[2rem] text-[1.5rem] xl:text-[3rem] text-center font-medium text-[#fff] flex items-center justify-center ">
           {blogTitle}
         </div>
       </div>
@@ -63,6 +65,8 @@ export default async function BlogLayout({ children, params }) {
           </div>
         </div>
       </div>
+      </div>
+      <Footer />
     </div>
   );
 }

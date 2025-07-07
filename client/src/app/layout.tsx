@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <DataProvider>
     <html lang="en">
-      <body className={`  `}>
+      <body className={` font-Montserrat `}>
         
         {children}
         <ToastContainer />

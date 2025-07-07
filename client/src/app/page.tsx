@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Blogs from "@/components/Blogs"
 import Courses from "@/components/Courses"
+import Footer from "@/components/Footer"
 
 export default async function Home() {
   let carousols = [];
@@ -93,6 +94,7 @@ export default async function Home() {
       <Competitions competitions={competitions} />
       <Blogs blogs={blogs} />
       <Courses courses={courses} />
+      <Footer />
     </div>
   );
 }
